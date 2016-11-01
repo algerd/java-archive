@@ -1,0 +1,18 @@
+С SQLite RowSet:execute() не захотел работать. Почему не разобрался. Может не предоставляется
+поставщиком такая возможность работы?
+
+
+The following interfaces in the javax.sql.rowset package define five types of rowsets:
+    • JdbcRowSet
+    • CachedRowSet
+    • WebRowSet
+    • FilteredRowSet
+    • JoinRowSet
+Each type of rowset has features that are suitable for specific needs. All these rowset interfaces inherit, directly
+or indirectly, from the RowSet interface. The RowSet interface is inherited from the ResultSet interface. Therefore,
+all methods in the ResultSet interface are also available in all types of rowsets.
+
+Typically, database vendors are supposed to provide implementation classes for rowsets. 
+They may provide them as part of their JDBC driver or as a separate bundle. 
+Third parties can also provide rowset implementation classes. As a developer, you can also provide rowset
+implementations to suit specific needs.

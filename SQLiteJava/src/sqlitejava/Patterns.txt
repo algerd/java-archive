@@ -1,0 +1,111 @@
+Row Data Gateway (Active Record)
+-----------------
+public class Customer{
+    public long ID;
+    public string FirstName;
+    public string LastName;
+    public string CompanyName;
+	
+	bool AddNewCustomer();
+    bool UpdateCustomer();
+    bool DeleteCustomer();
+}
+
+PHP:
+class Foo {
+    protected $db;
+    public $id;
+    public $bar;
+     
+    public function __construct(PDO $db){
+        $this->db = $db;
+    }
+ 
+    public function do_something(){
+        $this->bar .= uniqid();
+    }
+ 
+    public function save(){
+        if ($this->id) {
+            $sql = "UPDATE foo SET bar = :bar WHERE id = :id";
+            $statement = $this->db->prepare($sql);
+            $statement->bindParam("bar", $this->bar);
+            $statement->bindParam("id", $this->id);
+            $statement->execute();
+        }
+        else {
+            $sql = "INSERT INTO foo (bar) VALUES (:bar)";
+            $statement = $this->db->prepare($sql);
+            $statement->bindParam("bar", $this->bar);
+            $statement->execute();
+            $this->id = $this->db->lastInsertId();
+        }
+    }
+}
+ 
+//Insert
+$foo = new Foo($db);
+$foo->bar = 'baz';
+$foo->save();
+
+
+
+
+
+
+Table Data Gateway:
+-------------------
+public class Customer {
+    public long ID;
+    public string FirstName;
+    public string LastName;
+    public string CompanyName;
+}
+
+public interface ICustomerGateway {
+    IList<Customer> GetAll();
+    Customer GetCustomerByID(long id);
+    bool AddNewCustomer(Customer customer);
+    bool UpdateCustomer(Customer customer);
+    bool DeleteCustomer(long id);
+}
+
+PHP:
+class Foo {
+    public $id;
+    public $bar;
+ 
+    public function do_something() {
+        $this->bar .= uniqid();
+    }
+}
+ 
+class FooMapper {
+    protected $db;
+ 
+    public function __construct(PDO $db) {
+        $this->db = $db;
+    }
+    public function saveFoo(Foo &$foo) {
+        if ($foo->id) {
+            $sql = "UPDATE foo SET bar = :bar WHERE id = :id";
+            $statement = $this->db->prepare($sql);
+            $statement->bindParam("bar", $foo->bar);
+            $statement->bindParam("id", $foo->id);
+            $statement->execute();
+        }
+        else {
+            $sql = "INSERT INTO foo (bar) VALUES (:bar)";
+            $statement = $this->db->prepare($sql);
+            $statement->bindParam("bar", $foo->bar);
+            $statement->execute();
+            $foo->id = $this->db->lastInsertId();
+        }
+    }
+}
+ 
+//Insert
+$foo = new Foo();
+$foo->bar = 'baz';
+$mapper = new FooMapper($db);
+$mapper->saveFoo($foo);
