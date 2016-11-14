@@ -1,5 +1,3 @@
-
-/target/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 *.log
@@ -8,7 +6,6 @@ target/
 .classpath
 .factorypath
 .project
-/.settings/
 .settings
 .springBeans
 
